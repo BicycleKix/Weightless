@@ -33,3 +33,14 @@ def normalize(in_array: list) -> list:
 def common_factors(a: int, b: int) -> list:
     """returns a list of common factors for two integers"""
     return [i for i in range(1, min(a, b) + 1) if a % i == 0 and b % i == 0]
+
+def get_distance(a: tuple, b: tuple) -> float:
+    """input two 1D same length arrays [a and b] and return distance between two vector points"""
+    if not isinstance(a, list) or not isinstance(b, list):
+        raise TypeError("Both inputs must be lists.")
+    if len(a) != len(b):
+        raise ValueError("Input lists must be of the same length.")
+    if any(isinstance(i, list) for i in a) or any(isinstance(j, list) for j in b):
+        raise ValueError("Inputs must be 1D lists.")
+    
+    return (sum((ai - bi)**2 for ai, bi in zip(a, b)))**0.5
