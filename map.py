@@ -26,10 +26,10 @@ class Map:
             self.segment_size = cfs[choice]
             print("case correction")
 
-        self.corner_list = [CornerWall((0, self.game.ui_offset), (self.segment_size, self.segment_size), 0),
-                            CornerWall((self.game.display.width - self.segment_size, self.game.ui_offset), (self.segment_size, self.segment_size), 270),
-                            CornerWall((self.game.display.width - self.segment_size, self.game.display.height - self.segment_size), (self.segment_size, self.segment_size), 180),
-                            CornerWall((0, self.game.display.height - self.segment_size), (self.segment_size, self.segment_size), 90)]
+        self.corner_list = [CornerWall((0, self.game.ui_offset), (self.segment_size, self.segment_size), self.segment_size//4, 0),
+                            CornerWall((self.game.display.width - self.segment_size, self.game.ui_offset), (self.segment_size, self.segment_size), self.segment_size//4, 270),
+                            CornerWall((self.game.display.width - self.segment_size, self.game.display.height - self.segment_size), (self.segment_size, self.segment_size), self.segment_size//4, 180),
+                            CornerWall((0, self.game.display.height - self.segment_size), (self.segment_size, self.segment_size), self.segment_size//4, 90)]
         
         # -2 to exclude corners
         self.top_bottom_segment_count = self.game.game_size[0] // segment_size - 2
@@ -38,22 +38,22 @@ class Map:
         # generate wall with holes
         # top
         for i in range(self.top_bottom_segment_count):
-            self.wall_list.append(EdgeWall((self.segment_size*(1 + i), self.game.ui_offset), (self.segment_size, self.segment_size//4), i, 'top'))
+            self.wall_list.append(EdgeWall(self.game, (self.segment_size*(1 + i), self.game.ui_offset), (self.segment_size, self.segment_size//4), i, 'top'))
             if np.random.rand() < difficulty:
                 self.wall_list[-1].solid = False
         # right
         for i in range(self.sides_segment_count):
-            self.wall_list.append(EdgeWall((self.game.display.width - self.segment_size//4, self.game.ui_offset + self.segment_size*(1 + i)), (self.segment_size//4, self.segment_size), i, 'right', 270))
+            self.wall_list.append(EdgeWall(self.game, (self.game.display.width - self.segment_size//4, self.game.ui_offset + self.segment_size*(1 + i)), (self.segment_size//4, self.segment_size), i, 'right', 270))
             if np.random.rand() < difficulty:
                 self.wall_list[-1].solid = False
         # bottom
         for i in range(self.top_bottom_segment_count):
-            self.wall_list.append(EdgeWall((self.game.display.width - self.segment_size*(2 + i), self.game.display.height - self.segment_size//4), (self.segment_size, self.segment_size//4), i, 'bottom', 180))
+            self.wall_list.append(EdgeWall(self.game, (self.game.display.width - self.segment_size*(2 + i), self.game.display.height - self.segment_size//4), (self.segment_size, self.segment_size//4), i, 'bottom', 180))
             if np.random.rand() < difficulty:
                 self.wall_list[-1].solid = False
         # left
         for i in range(self.sides_segment_count):
-            self.wall_list.append(EdgeWall((0, self.game.display.height - self.segment_size*(2 + i)), (self.segment_size//4, self.segment_size), i, 'left', 90))
+            self.wall_list.append(EdgeWall(self.game, (0, self.game.display.height - self.segment_size*(2 + i)), (self.segment_size//4, self.segment_size), i, 'left', 90))
             if np.random.rand() < difficulty:
                 self.wall_list[-1].solid = False
 
